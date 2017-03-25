@@ -1,0 +1,10 @@
+    <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="{{URL::abs('/')}}" itemprop="url"><span itemprop="title">Home</span></a>
+    </li>
+    <li{{isset($page_type) ? ' itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.URL::abs('/').'/cars" itemprop="url"><span itemprop="title"' : ' class="active"'}}>Cars &amp; Trucks{{isset($page_type) ? '</span></a>' : ''}}</li>
+    @if(isset($page_type))<li{{isset($state) ? ' itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.URL::abs('/').'/cars/'.$page_type.'" itemprop="url"><span itemprop="title"' : ' class="active"'}}>{{$page_type == 'used' || $page_type == 'new' ? ucwords($page_type).' Cars' : ($page_type == 'auto-services' ? 'Service & Lease Specials' : 'Featured Dealers')}}{{isset($state) ? '</span></a>' : ''}}</li>@endif
+    @if(isset($state))<li{{isset($city) ? ' itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hidden-xs"><a href="'.URL::abs('/').'/cars/'.$page_type.'/'.strtolower($state).'" itemprop="url"><span itemprop="title"' : ' class="active"'}}>{{strtoupper($state)}}{{isset($city) ? '</span></a>' : ''}}</li>@endif
+    @if(isset($city))<li{{isset($make) ? ' itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hidden-xs"><a href="'.URL::abs('/').'/cars/'.$page_type.'/'.strtolower($state).'/'.strtolower($city).'" itemprop="url"><span itemprop="title"' : ' class="active"'}}>{{ucwords(SoeHelper::unSlug($city))}}{{isset($make) ? '</span></a>' : ''}}</li>@endif
+    @if((isset($make)) && $make != 'all')<li{{(isset($price) && $price != '100000') ? ' itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="'.URL::abs('/').'/cars/'.$page_type.'/'.strtolower($state).'/'.strtolower($city).'/'.$make.'" itemprop="url"><span itemprop="title"' : ' class="active"'}}>{{ucwords(SoeHelper::unSlug($make))}}{{(isset($price) && $price != '100000') ? '</span></a>' : ''}}</li>@endif
+    @if((isset($price)) && $price != '100000')<li class="active">${{number_format($price)}}</li>@endif
+    @if(isset($style))<li class="active">{{ucwords(SoeHelper::unSlug($style))}}</li>@endif
